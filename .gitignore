@@ -1,0 +1,41 @@
+# Generated packages, local backups, scratch work and reports
+/dist/
+/backups/
+/work/
+/tests/*.txt
+*.drfx
+*.drp
+*.dra
+*.drt
+*.log
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+secrets.*
+# Editor and OS files
+.DS_Store
+._*
+.idea/
+.vscode/
+*.swp
+*.swo
+# Media and render output
+*.mp4
+*.mov
+*.mxf
+*.wav
+*.exr
+/render/
+/cache/

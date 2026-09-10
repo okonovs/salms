@@ -1,0 +1,32 @@
+# Working on salms
+
+## Scope and architecture
+- This directory is the project and Git repository root. Keep all project files, scratch work and backups here.
+- Build a DaVinci Resolve Fusion generator usable above footage from the Edit page Inspector.
+- Read lower timeline tracks using MediaIn MediaSource=Background. Never copy/import source footage into the composition.
+- One master rectangle controls center, width and height; the outline inherits all three.
+- Randomization must be deterministic and held for discrete frame intervals, without smoothing or shaking. Respect size bounds and image containment.
+- Keep the original and blurred/grained branches distinct. Grayscale affects both footage branches and leaves border color independent.
+
+## Safety and workflow
+- Preserve user edits and known-working prototypes. Do not assume the active Resolve composition is the intended target.
+- Previous automation returned an error while setting MediaSource/adding Blur. Treat execution state as uncertain; do not resume mutations blindly.
+- For any future authorized automation, use small explicit tool operations and identify project, timeline, item and composition. Verify state between important operations.
+- On API errors or Bad Request, stop mutations rather than retry. Reacquire references after state changes. Work locally on settings/scripts instead.
+- Never send giant serialized graphs through generic Resolve API calls.
+- Keep graph design, API transport failures and template packaging bugs separate.
+
+## Build and validation
+- Python standard library only: run `python3 build_random_grain.py` and `python3 build_plugin.py`.
+- `build_plugin.py` consumes Random4_Grain.setting. If prototype behavior changes, update its builder too; avoid generated-source drift.
+- Keep installation instructions in docs/INSTALL.txt; dist is disposable build output.
+- Local checks cover math, connections and archive structure, not Resolve rendering. Never claim a packaged change works without rendered/manual evidence.
+- Verify Inspector controls, grayscale, four-frame holds, border geometry, independent instances, lower-track input and stretched duration in Resolve before declaring a release validated.
+
+## Git and secrets
+- User explicitly requests commits at meaningful working milestones. Review the diff, run appropriate checks, and commit coherent verified changes with descriptive messages.
+- Do not claim a commit/push succeeded until checked. Do not force-push or rewrite existing history without authorization.
+- Keep the GitHub repository private. Never make it public without explicit user instruction.
+- Before staging, check for secrets and unintended files. Never commit .env files, credentials, keys, user media, Resolve backups, generated installers, caches or reports.
+- Use work/ for temporary tools and files; backups/ for local safety copies; dist/ for generated deliverables. These are ignored.
+- Record remaining limitations honestly in documentation and milestone messages.

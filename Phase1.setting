@@ -1,0 +1,66 @@
+{
+ Tools = ordered() {
+  SalmsTimeline = MediaIn {
+   Inputs = { MediaSource = Input { Value = FuID { "Background" } } },
+   ViewInfo = OperatorInfo { Pos = { 0, 0 } }
+  },
+  SalmsBlur = Blur {
+   Inputs = {
+    XBlurSize = Input { Value = 12 },
+    Input = Input { SourceOp = "SalmsTimeline", Source = "Output" }
+   },
+   ViewInfo = OperatorInfo { Pos = { 165, 65 } }
+  },
+  SalmsRectangle = RectangleMask {
+   Inputs = {
+    Center = Input { Value = { 0.5, 0.5 } },
+    Width = Input { Value = 0.35 },
+    Height = Input { Value = 0.4 },
+    Solid = Input { Value = 1 }
+   },
+   ViewInfo = OperatorInfo { Pos = { 165, -65 } }
+  },
+  SalmsSharpWindow = Merge {
+   Inputs = {
+    Background = Input { SourceOp = "SalmsBlur", Source = "Output" },
+    Foreground = Input { SourceOp = "SalmsTimeline", Source = "Output" },
+    EffectMask = Input { SourceOp = "SalmsRectangle", Source = "Mask" },
+    PerformDepthMerge = Input { Value = 0 }
+   },
+   ViewInfo = OperatorInfo { Pos = { 330, 0 } }
+  },
+  SalmsOutline = RectangleMask {
+   Inputs = {
+    Center = Input { Expression = "SalmsRectangle.Center" },
+    Width = Input { Expression = "SalmsRectangle.Width" },
+    Height = Input { Expression = "SalmsRectangle.Height" },
+    Solid = Input { Value = 0 },
+    BorderWidth = Input { Value = 0.003 }
+   },
+   ViewInfo = OperatorInfo { Pos = { 330, -130 } }
+  },
+  SalmsWhite = Background {
+   Inputs = {
+    UseFrameFormatSettings = Input { Value = 1 },
+    TopLeftRed = Input { Value = 1 },
+    TopLeftGreen = Input { Value = 1 },
+    TopLeftBlue = Input { Value = 1 },
+    TopLeftAlpha = Input { Value = 1 },
+    EffectMask = Input { SourceOp = "SalmsOutline", Source = "Mask" }
+   },
+   ViewInfo = OperatorInfo { Pos = { 495, -65 } }
+  },
+  SalmsBorder = Merge {
+   Inputs = {
+    Background = Input { SourceOp = "SalmsSharpWindow", Source = "Output" },
+    Foreground = Input { SourceOp = "SalmsWhite", Source = "Output" },
+    PerformDepthMerge = Input { Value = 0 }
+   },
+   ViewInfo = OperatorInfo { Pos = { 495, 0 } }
+  },
+  MediaOut1 = MediaOut {
+   Inputs = { Index = Input { Value = "0" }, Input = Input { SourceOp = "SalmsBorder", Source = "Output" } },
+   ViewInfo = OperatorInfo { Pos = { 660, 0 } }
+  }
+ }
+}
