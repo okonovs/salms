@@ -6,7 +6,7 @@
 - Read lower timeline tracks using MediaIn MediaSource=Background. Never copy/import source footage into the composition.
 - One master rectangle controls center, width and height; the outline inherits all three.
 - Randomization must be deterministic and held for discrete frame intervals, without smoothing or shaking. Respect size bounds and image containment.
-- Keep the original and blurred/grained branches distinct. Grayscale affects both footage branches and leaves border color independent.
+- Keep the original and blurred/grained branches distinct. Grayscale affects only the processed exterior after grain. The sharp interior retains the original color, and border color remains independent.
 
 ## Safety and workflow
 - Preserve user edits and known-working prototypes. Do not assume the active Resolve composition is the intended target.

@@ -53,23 +53,18 @@ r=r.replace('   ViewInfo =', '   UserControls = ordered() {\n'+'\n'.join(uc)+'\n
 s=s[:start]+r+s[end:]
 s=s.replace('XBlurSize = Input { Value = 12 }','XBlurSize = Input { Expression = "SalmsRectangle.BlurAmount" }')
 s=s.replace('Blend = Input { Value = 0.5 }','Blend = Input { Expression = "SalmsRectangle.GrainAmount" }')
-# Grayscale is upstream of BOTH branches, border is downstream.
-s=s.replace('SourceOp = "SalmsTimeline", Source = "Output"','SourceOp = "SalmsGrayscale", Source = "Output"')
+# Desaturate only the processed exterior, after grain. The original sharp
+# foreground and independently colored border never pass through this node.
 s=s.replace('  SalmsBlur = Blur {','''  SalmsGrayscale = BrightnessContrast {
    Inputs = {
-    Input = Input { SourceOp = "SalmsTimeline", Source = "Output" },
+    Input = Input { SourceOp = "SalmsFilmGrain", Source = "Output" },
     Saturation = Input { Expression = "1-SalmsRectangle.Grayscale" }
    },
-   ViewInfo = OperatorInfo { Pos = { 110, 0 } }
+   ViewInfo = OperatorInfo { Pos = { 300, 65 } }
   },
   SalmsBlur = Blur {''')
-# Desaturate the completed footage composite, including any colored grain.
-# The border is added afterwards and retains its independent color.
-s=s.replace('SourceOp = "SalmsGrayscale", Source = "Output"', 'SourceOp = "SalmsTimeline", Source = "Output"')
-a=s.index('  SalmsGrayscale = BrightnessContrast {')
-b=s.index('  SalmsBlur = Blur {',a)
-s=s[:a]+s[a:b].replace('SourceOp = "SalmsTimeline"','SourceOp = "SalmsSharpWindow"')+s[b:]
-s=s.replace('Background = Input { SourceOp = "SalmsSharpWindow", Source = "Output" }','Background = Input { SourceOp = "SalmsGrayscale", Source = "Output" }')
+s=s.replace('Background = Input { SourceOp = "SalmsFilmGrain", Source = "Output" }',
+            'Background = Input { SourceOp = "SalmsGrayscale", Source = "Output" }')
 # Macro outputs final merge directly; Resolve supplies the timeline MediaOut.
 body=s[s.index('  SalmsTimeline ='):s.index('  MediaOut1 =')].rstrip().rstrip(',')
 published=[]

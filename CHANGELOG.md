@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-09-13
+
+- Apply grayscale only to the processed exterior, preserving original color in the sharp window.
+- Document every Inspector control, its default and practical use in the README.
+- Local checks pass; updated Resolve rendering validation remains pending.
+
 ## 0.2.0 — 2026-09-13
 
 - Replace invalid grayscale input wiring with BrightnessContrast's native Saturation input.
