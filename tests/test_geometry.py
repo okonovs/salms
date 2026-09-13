@@ -33,6 +33,12 @@ class GeometryTests(unittest.TestCase):
             b=rectangle(frame,9/16,1,1)
             self.assertAlmostEqual(a[3],b[3])
 
+    def test_defaults_generate_tall_and_wide_on_both_timeline_formats(self):
+        for aspect in (16/9, 9/16):
+            ratios = [rectangle(f, aspect)[3] for f in range(0, 400, 4)]
+            self.assertGreater(sum(r < .5 for r in ratios), 10)
+            self.assertGreater(sum(r > 2 for r in ratios), 10)
+
     def test_holds_and_both_orientations(self):
         values=[rectangle(f,16/9,1,1) for f in range(400)]
         for f,value in enumerate(values):

@@ -29,6 +29,12 @@ Place **Salms Random Window** above your footage, stretch it over a section, and
 
 Area and shape are sampled separately. Frame dimensions convert the sampled shape into Fusion's normalized coordinates. Each result holds for four frames by default, then jumps without interpolation. If a shape cannot fit at the chosen area, its ratio is restricted to preserve the area and a 1% edge margin. Square pixels are currently assumed.
 
+## Download
+
+Get the installable **Salms Random Window.drfx** from [GitHub Releases](https://github.com/okonovs/salms/releases). Double-click it to install. No Python or source build is needed for the downloaded installer.
+
+The default sequence generates **both tall/narrow and wide/horizontal windows**, not one orientation per timeline. Keep the shape range at **0.25–4** to allow both. Shapes are sampled randomly, so they need not alternate at each jump.
+
 ## Build and install
 
 Requires Python 3 and DaVinci Resolve with Fusion.

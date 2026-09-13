@@ -26,7 +26,7 @@
 ## Git and secrets
 - User explicitly requests commits at meaningful working milestones. Review the diff, run appropriate checks, and commit coherent verified changes with descriptive messages.
 - Do not claim a commit/push succeeded until checked. Do not force-push or rewrite existing history without authorization.
-- Keep the GitHub repository private. Never make it public without explicit user instruction.
+- The user explicitly authorized making this repository public on 2026-09-13. Keep credentials, footage and local backups excluded. Publish installable .drfx files as GitHub Release assets, not tracked build output.
 - Before staging, check for secrets and unintended files. Never commit .env files, credentials, keys, user media, Resolve backups, generated installers, caches or reports.
 - Use work/ for temporary tools and files; backups/ for local safety copies; dist/ for generated deliverables. These are ignored.
 - Record remaining limitations honestly in documentation and milestone messages.
