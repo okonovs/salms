@@ -6,7 +6,7 @@
 4. Add a **new** Salms Random Window generator above footage. Existing timeline instances can retain the previous embedded graph; reinstalling does not reliably migrate them.
 5. Select the generator on Edit and adjust the Generator Inspector.
 
-## Version 0.2.1 controls
+## Version 1.0 controls
 
 - Blur: 12 by default. Grain blend: 0.5. Grayscale: off.
 - Interval: 4 frames. Seed: 17.

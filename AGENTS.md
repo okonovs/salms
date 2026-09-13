@@ -35,3 +35,6 @@
 - Run `python3 -m unittest discover -s tests -v` before committing geometry changes.
 - Area is a fraction of frame area; visual shape ratio is corrected for frame dimensions (square pixels currently assumed). Preserve sampled area by constraining infeasible ratios.
 - Grayscale uses BrightnessContrast.Saturation; do not restore the invalid MasterRGBSaturation input.
+
+## Authorized demonstration asset
+- The user explicitly authorized publishing salms-preview.mov on 2026-09-13. docs/assets/demo.gif is its README derivative; the original belongs in Release assets. This exception does not authorize publishing other footage.

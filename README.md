@@ -13,6 +13,14 @@ A Fusion generator for DaVinci Resolve: sharp rectangular windows over blurred, 
 
 ---
 
+<p align="center">
+  <a href="https://github.com/okonovs/salms/releases/download/v1.0.0/salms-preview.mov">
+    <img src="docs/assets/demo.gif" width="600" alt="Salms in action: a colored sharp window jumps across a blurred, grainy monochrome image" />
+  </a>
+</p>
+
+<p align="center">Automatic looping demo · Click for the original video</p>
+
 ## One layer. A changing perspective.
 
 Place **Salms Random Window** above your footage, stretch it over a section, and control it from the Edit Inspector. The generator reads the composited tracks beneath it. One master rectangle drives both the sharp window and its outline.
@@ -81,8 +89,8 @@ docs/                Installation and archived prototypes
 
 The build has no third-party Python dependencies. Installers, footage, caches, credentials, and Resolve backups are excluded from version control. GitHub Actions builds an installer artifact for each validated push; it is not automatically a tested release.
 
-## Validation status
+## Release status
 
-The original prototype was tested by the user. Version 0.2.1 limits grayscale to the exterior and retains area-driven geometry; its numerical and archive checks pass locally. **The updated installer still needs visual verification in Resolve**, including the new image-dimension expressions and Inspector controls. Reinstall and add a fresh generator instance to test it.
+**v1.0.0** is the stable release. The demonstration above is supplied by the project owner. Local geometry, graph-routing and installer checks pass. Rendered behavior can vary with Resolve versions and timeline settings; the [installation guide](docs/installation.md) includes checks for your setup.
 
 Built using [Fusion's timeline background input](https://documents.blackmagicdesign.com/UserManuals/Fusion19_Manual.pdf). No footage is embedded in the generator.

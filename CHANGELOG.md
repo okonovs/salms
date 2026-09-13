@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0 — 2026-09-13
+
+- Promote the current installer to the first stable release at the project owner’s request.
+- Add an automatic looping README demonstration and original video release asset.
+- Preserve the exterior-only grayscale and area-based geometry from 0.2.1.
+
+
 ## 0.2.1 — 2026-09-13
 
 - Apply grayscale only to the processed exterior, preserving original color in the sharp window.
