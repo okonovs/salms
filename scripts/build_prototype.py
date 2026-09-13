@@ -1,7 +1,7 @@
 from pathlib import Path
 import math
-root = Path(__file__).resolve().parent
-source = (root/'Phase1.setting').read_text()
+root = Path(__file__).resolve().parent.parent
+source = (root/'docs/archive/phase-1.setting').read_text()
 # Stateless, independent deterministic streams. Seed is fixed at 17 for this prototype.
 index = '(floor((time-comp.RenderStart)/4)+17)'
 def random_expr(channel):
@@ -24,7 +24,7 @@ grain = '''  SalmsFilmGrain = FilmGrain {
 '''
 source = source.replace('  SalmsRectangle = RectangleMask {',grain+'  SalmsRectangle = RectangleMask {')
 source = source.replace('Background = Input { SourceOp = "SalmsBlur", Source = "Output" }','Background = Input { SourceOp = "SalmsFilmGrain", Source = "Output" }')
-(root/'Random4_Grain.setting').write_text(source)
+(root/'src/random-window-base.setting').write_text(source)
 # Check temporal holding and bounds independently of Resolve expression evaluation.
 def state(frame):
     i=frame//4+17

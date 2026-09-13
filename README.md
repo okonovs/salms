@@ -1,46 +1,61 @@
-# salms — Random Window for DaVinci Resolve
+<div align="center">
 
-A reusable Fusion generator that reads the composited video tracks underneath it, blurs and grains the image, and reveals a sharp rectangular window with a matching border. The window jumps to a deterministic random position and size at a configurable frame interval.
+# SALMS
+### A moving window of clarity.
 
-## Features
+A Fusion generator for DaVinci Resolve: sharp rectangular windows over blurred, grainy footage.
 
-- Timeline background input; no source media imported into the graph.
-- Blur and film grain on the exterior, with a sharp interior.
-- One master rectangle drives the window and border.
-- Discrete random changes, defaulting to every four frames.
-- Edit Inspector controls for blur, grain, grayscale, interval, seed, minimum/maximum width and height, border width, color and opacity.
-- White border by default. Grayscale affects the footage while preserving the chosen border color.
+[![Validate](https://github.com/okonovs/salms/actions/workflows/validate.yml/badge.svg)](https://github.com/okonovs/salms/actions/workflows/validate.yml)
 
-## Build
+**Edit-page controls · Deterministic motion · No external media**
 
-Python 3 with the standard library is sufficient. From this repository:
+</div>
+
+---
+
+## One layer. A changing perspective.
+
+Place **Salms Random Window** above your footage, stretch it over a section, and control it from the Edit Inspector. The generator reads the composited tracks beneath it. One master rectangle drives both the sharp window and its outline.
+
+| Image | Rectangle | Border |
+| --- | --- | --- |
+| Blur amount | Change interval and seed | Width |
+| Film grain amount | Minimum / maximum area | Color |
+| Grayscale | Minimum / maximum shape ratio | Opacity |
+
+## Area defines size. Ratio defines shape.
+
+**Area** is the percentage of the whole frame occupied by the sharp window. **Shape ratio** is its visible width divided by height: `0.25` is tall, `1` is square, and `4` is wide. The default range spans tall and wide shapes equally in logarithmic space, independently of the timeline's orientation.
+
+Area and shape are sampled separately. Frame dimensions convert the sampled shape into Fusion's normalized coordinates. Each result holds for four frames by default, then jumps without interpolation. If a shape cannot fit at the chosen area, its ratio is restricted to preserve the area and a 1% edge margin. Square pixels are currently assumed.
+
+## Build and install
+
+Requires Python 3 and DaVinci Resolve with Fusion.
 
 ```sh
-python3 build_random_grain.py
-python3 build_plugin.py
+python3 -m unittest discover -s tests -v
+python3 scripts/build_release.py
 ```
 
-The installer is generated at `dist/Salms Random Window.drfx`. Build scripts also write local validation reports under `tests/`. Generated packages, reports, media and Resolve project backups are deliberately excluded from Git.
+Double-click **`dist/Salms Random Window.drfx`**, confirm installation, then search **Effects → Generators → Salms Random Window** on the Edit page. Put it on V2 above your footage and select it to access the Generator Inspector.
 
-## Install and use
+[Installation and upgrade guide](docs/installation.md) · [Changes](CHANGELOG.md) · [Development instructions](AGENTS.md)
 
-Double-click the generated `.drfx` file and confirm installation in Resolve. In the Edit page Effects Library, search Generators for **Salms Random Window**. Place it on V2 above footage on V1, stretch it to the desired duration, then select it to adjust the Generator Inspector. See [installation and manual checks](docs/INSTALL.txt).
+## Project map
 
-## Source layout
+```text
+src/                 Base Fusion graph
+scripts/             Prototype and installer builders
+tests/               Geometry contract tests
+docs/                Installation and archived prototypes
+.github/workflows/   Build validation and installer artifacts
+```
 
-- `Phase1.setting`: user-confirmed basic blur/window/border graph.
-- `Random4_Grain.setting`: pasteable random-window and grain prototype.
-- `build_random_grain.py`: regenerates the prototype and checks timing/bounds.
-- `build_plugin.py`: builds the macro and standard `Edit/Generators/Salms` installer archive; checks archive integrity and internal references.
-- `TEST_RANDOM4.md`: prototype manual verification steps.
-- `AGENTS.md`: instructions for future development sessions.
+The build has no third-party Python dependencies. Installers, footage, caches, credentials, and Resolve backups are excluded from version control. GitHub Actions builds an installer artifact for each validated push; it is not automatically a tested release.
 
 ## Validation status
 
-The base graph and random/grain prototype received positive user feedback. The packaged generator has passed local structural checks; installation, Inspector behavior and rendered output still need explicit verification in Resolve. Local Python checks do not prove Fusion expression evaluation or rendering correctness.
+The original prototype was tested by the user. Version 0.2 corrects grayscale wiring and introduces area-driven geometry; its numerical and archive checks pass locally. **The updated installer still needs visual verification in Resolve**, including the new image-dimension expressions and Inspector controls. Reinstall and add a fresh generator instance to test it.
 
-The graph uses `MediaIn` with `MediaSource = Background`. See the [Blackmagic Fusion reference manual](https://documents.blackmagicdesign.com/UserManuals/Fusion19_Manual.pdf). This is a Fusion template, not a compiled OFX or Codex plugin.
-
-## Development
-
-Keep development incremental and preserve the known-working graphs. Resolve automation previously returned an error; no further mutations should be attempted without resolving that issue. Prefer locally generated settings and manual validation when automation is unreliable. Commit meaningful working milestones with accurate validation notes; never commit credentials, footage or project backups.
+Built using [Fusion's timeline background input](https://documents.blackmagicdesign.com/UserManuals/Fusion19_Manual.pdf). No footage is embedded in the generator.

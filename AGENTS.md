@@ -17,9 +17,9 @@
 - Keep graph design, API transport failures and template packaging bugs separate.
 
 ## Build and validation
-- Python standard library only: run `python3 build_random_grain.py` and `python3 build_plugin.py`.
-- `build_plugin.py` consumes Random4_Grain.setting. If prototype behavior changes, update its builder too; avoid generated-source drift.
-- Keep installation instructions in docs/INSTALL.txt; dist is disposable build output.
+- Python standard library only: run `python3 scripts/build_prototype.py` and `python3 scripts/build_release.py`.
+- `scripts/build_release.py` consumes src/random-window-base.setting. If prototype behavior changes, update its builder too; avoid generated-source drift.
+- Keep installation instructions in docs/installation.md; dist is disposable build output.
 - Local checks cover math, connections and archive structure, not Resolve rendering. Never claim a packaged change works without rendered/manual evidence.
 - Verify Inspector controls, grayscale, four-frame holds, border geometry, independent instances, lower-track input and stretched duration in Resolve before declaring a release validated.
 
@@ -30,3 +30,8 @@
 - Before staging, check for secrets and unintended files. Never commit .env files, credentials, keys, user media, Resolve backups, generated installers, caches or reports.
 - Use work/ for temporary tools and files; backups/ for local safety copies; dist/ for generated deliverables. These are ignored.
 - Record remaining limitations honestly in documentation and milestone messages.
+
+## Geometry and regression checks
+- Run `python3 -m unittest discover -s tests -v` before committing geometry changes.
+- Area is a fraction of frame area; visual shape ratio is corrected for frame dimensions (square pixels currently assumed). Preserve sampled area by constraining infeasible ratios.
+- Grayscale uses BrightnessContrast.Saturation; do not restore the invalid MasterRGBSaturation input.
